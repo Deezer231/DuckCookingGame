@@ -7,6 +7,8 @@ public class DeliveryManager : MonoBehaviour
 
     public event EventHandler OnRecipeSpawned;
     public event EventHandler OnRecipeCompleted;
+    public event EventHandler OnRecipeSuccess;
+    public event EventHandler OnRecipeFailed;
 
 
     public static DeliveryManager Instance { get; private set; }
@@ -50,41 +52,39 @@ public class DeliveryManager : MonoBehaviour
 
             if (waitingRecipeSO.kitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
             {
-                // Has the same number of ingredients
                 bool plateContentsMatchesRecipe = true;
                 foreach (KitchenObjectSO recipeKitchenObjectSO in waitingRecipeSO.kitchenObjectSOList)
                 {
-                    // Cycling through all ingredients in the recipe
                     bool ingredientFound = false;
                     foreach (KitchenObjectSO plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
                     {
-                        // Cycling through all ingredients in the plate
                         if (plateKitchenObjectSO == recipeKitchenObjectSO)
                         {
-                            // Ingredient matches!
                             ingredientFound = true;
                             break;
                         }
                     }
                     if (!ingredientFound)
                     {
-                        // This recipe ingredient was not found on the plate
                         plateContentsMatchesRecipe = false;
                     }
                 }
                 if (plateContentsMatchesRecipe)
                 {
-                    // Player delivered the correct recipe
+                    //successfulRecipesAmount++;
 
                     waitingRecipeSOList.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                    OnRecipeSuccess?.Invoke(this, EventArgs.Empty);
+
                     return;
                 }
             }
         }
         // No matches found
         Debug.Log("Incorrect Recipe Delivered!");
+        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
     }
     public List<RecipeSO> GetWaitingRecipeSOList()
     {
