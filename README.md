@@ -12,6 +12,12 @@ This project demonstrates advanced Unity concepts, including:
 
 ---
 
+
+<img width="1235" height="602" alt="Screenshot 2025-10-01 221740" src="https://github.com/user-attachments/assets/101f098a-0754-4ba8-876b-7c333e470c3c" />
+
+
+
+
 ## Features
 
 ### Player Movement & Input
